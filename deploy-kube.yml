@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+    name: sample-deploy
+spec:
+    replicas: 2
+    template:
+      metadata:
+       labels:
+         app: sample-ctr
+      spec:
+         containers:
+         - name: sample-pod
+           image: docker.io/raknas000/gameoflife-image:latest
+           ports:
+           - containerPort: 8080

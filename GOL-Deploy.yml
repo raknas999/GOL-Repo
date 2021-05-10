@@ -1,0 +1,33 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+    name: sample-deploy
+spec:
+    replicas: 1
+    template:
+      metadata:
+       labels:
+         app: sample-ctr
+      spec:
+         containers:
+         - name: sample-pod
+           image: docker.io/raknas000/gameoflife-image:latest
+           ports:
+           - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata: 
+  name: sample-svc
+  labels:
+    app: sample-ctr
+spec:
+  type: NodePort
+  ports: 
+  - port: 8080
+    nodePort: 30005
+    protocol: TCP
+  selector:
+    app: sample-ctr
+---
