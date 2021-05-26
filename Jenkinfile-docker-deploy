@@ -12,7 +12,7 @@ stages {
 
       // Get some code from a GitHub repository
 
-      git 'https://github.com/raknas999/GOL-Repo.git'
+      git https://github.com/kotapatai/GOL-Repo.git'
 
       // Get the Maven tool.
      
@@ -62,8 +62,8 @@ stages {
     stage('Build and Push Docker Image') {
       steps {
         sh label: '', script: '''sudo docker build -t gameoflife-image:$BUILD_NUMBER .
-                                 sudo docker tag gameoflife-image:$BUILD_NUMBER docker.io/raknas000/gameoflife-image:$BUILD_NUMBER
-                                 sudo docker push docker.io/raknas000/gameoflife-image:$BUILD_NUMBER'''
+                                 sudo docker tag gameoflife-image:$BUILD_NUMBER docker.io/kotapati/gameoflife-image:$BUILD_NUMBER
+                                 sudo docker push docker.io/kotapati/gameoflife-image:$BUILD_NUMBER'''
                                  
       }
  }
@@ -76,8 +76,8 @@ stages {
   stage('Apply Kubernetes files') {
             steps {
              sh label: '', script: '''scp *.yml jenkins@172.31.18.160:/home/jenkins
-                                  ssh jenkins@172.31.18.160 kubectl apply -f deploy-kube.yml
-                                  ssh jenkins@172.31.18.160 kubectl apply -f service.yml'''
+                                  ssh jenkins@65.2.127.138 kubectl apply -f deploy-kube.yml
+                                  ssh jenkins@65.2.127.138 kubectl apply -f service.yml'''
            
         }
      }
@@ -95,7 +95,7 @@ post {
             archiveArtifacts 'gameoflife-web/target/*.war'
         }
         failure {
-            mail to:"raknas000@gmail.com", subject:"FAILURE: ${currentBuild.fullDisplayName}", body: "Build failed"
+            mail to:"venkat8864@gmail.com", subject:"FAILURE: ${currentBuild.fullDisplayName}", body: "Build failed"
         }
     }       
 }
