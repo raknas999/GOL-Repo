@@ -12,7 +12,7 @@ spec:
       spec:
          containers:
          - name: sample-pod
-           image: docker.io/raknas000/gameoflife-image:latest
+           image: docker.io/kotapati/gameoflife-image:latest
            ports:
            - containerPort: 8080
 ---
