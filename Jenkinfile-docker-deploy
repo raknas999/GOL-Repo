@@ -12,7 +12,7 @@ stages {
 
       // Get some code from a GitHub repository
 
-      git https://github.com/kotapatai/GOL-Repo.git'
+      git 'https://github.com/kotapatai/GOL-Repo.git'
 
       // Get the Maven tool.
      
