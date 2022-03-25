@@ -35,7 +35,18 @@ stages {
        }
 //}
    }
- 
+ stage('Sonarqube') {
+    environment {
+        def scannerHome = tool 'sonarqube';
+    }
+    steps {
+      withSonarQubeEnv('sonarqube') {
+            sh "${scannerHome}/bin/sonar-scanner"
+        }
+        timeout(time: 10, unit: 'MINUTES') {
+        waitForQualityGate abortPipeline: true
+    }
+  }
   stage('Unit Test Results') {
       steps {
       junit '**/target/surefire-reports/TEST-*.xml'
