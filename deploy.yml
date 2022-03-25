@@ -28,4 +28,4 @@
        url: http://3.21.186.112:8081:8081/nexus/service/local/artifact/maven/redirect?r=releases&g=com.wakaleo.gameoflife&a=gameoflife&p=war&v=LATEST
        dest: /usr/share/tomcat/webapps/gameoflife.war
   - name: Start Tomcat
-    service: name=tomcat state=started
+    service: name=tomcatstart state=started
