@@ -1,7 +1,7 @@
 pipeline {
     agent any 
     tools { 
-        maven 'Maven' 
+        maven 'maven' 
       
     }
 stages { 
@@ -14,7 +14,7 @@ stages {
 
    //  git 'https://github.com/raknas999/GOL-Repo.git'
 
-      // Get the Maven tool.
+      // Get the maven tool.
      
  // ** NOTE: This 'M3' Maven tool must be configured
  
