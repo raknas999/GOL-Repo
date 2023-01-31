@@ -1,5 +1,5 @@
 pipeline {
-    agent any 
+  agent any 
     tools { 
         maven 'MAVEN' 
       
@@ -13,7 +13,7 @@ stages {
       // Get some code from a GitHub repository
 
       //git 'https://github.com/raknas999/game-of-life.git'
-      git 'https://github.com/raknas999/GOL-Repo.git'
+      git 'https://github.com/NikhilH91/GOL-Repo-1.git'
 
       // Get the Maven tool.
      
@@ -71,7 +71,7 @@ post {
             archiveArtifacts 'gameoflife-web/target/*.war'
         }
        failure {
-           mail to:"raknas000@gmail.com", subject:"FAILURE: ${currentBuild.fullDisplayName}", body: "Build failed"
+           mail to:"000@gmail.com", subject:"FAILURE: ${currentBuild.fullDisplayName}", body: "Build failed"
         }
     }       
 }
