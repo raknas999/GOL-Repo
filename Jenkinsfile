@@ -1,5 +1,5 @@
 pipeline {
-  agent any 
+    agent any 
     tools { 
         maven 'MAVEN' 
       
@@ -8,12 +8,11 @@ stages {
      
  stage('Preparation') { 
      steps {
-// for display purpose
+// for display purposes
 
       // Get some code from a GitHub repository
 
-      //git 'https://github.com/raknas999/game-of-life.git'
-      git 'https://github.com/NikhilH91/GOL-Repo-1.git'
+      git 'https://github.com/NikhilH91/hello-world-servlet.git'
 
       // Get the Maven tool.
      
@@ -36,42 +35,49 @@ stages {
 //}
    }
  
-  stage('Unit Test Results') {
+  stage('Results') {
       steps {
       junit '**/target/surefire-reports/TEST-*.xml'
-      
-     }
+      archiveArtifacts 'target/*.war'
+      }
  }
  stage('Sonarqube') {
     environment {
-        def scannerHome = tool 'sonarqube';
+        scannerHome = tool 'sonarqube'
     }
     steps {
-      withSonarQubeEnv('sonarqube') {
+        withSonarQubeEnv('sonarqube') {
             sh "${scannerHome}/bin/sonar-scanner"
         }
- //       timeout(time: 10, unit: 'MINUTES') {
-   //       waitForQualityGate abortPipeline: true
-     //   }
+  //      timeout(time: 10, unit: 'MINUTES') {
+ //           waitForQualityGate abortPipeline: true
+  //      }
     }
 }
      stage('Artifact upload') {
       steps {
-       nexusPublisher nexusInstanceId: '1234', nexusRepositoryId: 'releases', packages: [[$class: 'MavenPackage', mavenAssetList: [[classifier: '', extension: '', filePath: 'gameoflife-web/target/gameoflife.war']], mavenCoordinate: [artifactId: 'gameoflife', groupId: 'com.wakaleo.gameoflife', packaging: 'war', version: '$BUILD_NUMBER']]]
+     //nexusPublisher nexusInstanceId: '1234', nexusRepositoryId: 'releases', packages: [[$class: 'MavenPackage', mavenAssetList: [[classifier: '', extension: '', filePath: 'target/helloworld.war']], mavenCoordinate: [artifactId: 'hello-world-servlet-example', groupId: 'com.geekcap.vmturbo', packaging: 'war', version: '$BUILD_NUMBER']]]
+      nexusPublisher nexusInstanceId: '1234', nexusRepositoryId: 'maven-releases', packages: [[$class: 'MavenPackage', mavenAssetList: [[classifier: '', extension: '', filePath: 'target/helloworld.war']], mavenCoordinate: [artifactId: 'hello-world-servlet-example', groupId: 'com.geekcap.vmturbo', packaging: 'war', version: '$BUILD_NUMBER']]]
       }
-     }
-    stage('Deploy War') {
+ }
+    
+     stage('Update Artifact Version') {
+      steps {
+        sh label: '', script: '''sed -i s/artifactversion/$BUILD_NUMBER/ deploy.yml'''
+      }
+ }
+     stage('Deploy War') {
       steps {
         sh label: '', script: 'ansible-playbook deploy.yml'
       }
  }
 }
 post {
-       success {
-            archiveArtifacts 'gameoflife-web/target/*.war'
+        success {
+            mail to:"nikhilhalmare8@gmail.com", subject:"SUCCESS: ${currentBuild.fullDisplayName}", body: "Build success"
         }
-       failure {
-           mail to:"000@gmail.com", subject:"FAILURE: ${currentBuild.fullDisplayName}", body: "Build failed"
+        failure {
+            mail to:"nikhilhalmare8@gmail.com", subject:"FAILURE: ${currentBuild.fullDisplayName}", body: "Build failed"
         }
     }       
 }
