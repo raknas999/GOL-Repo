@@ -1,7 +1,7 @@
 pipeline {
     agent any 
     tools { 
-        maven 'MAVEN' 
+        maven 'Maven' 
       
     }
 stages { 
@@ -71,7 +71,7 @@ post {
             archiveArtifacts 'gameoflife-web/target/*.war'
         }
        failure {
-           mail to:"halmarenikhil8@gmail.com", subject:"FAILURE: ${currentBuild.fullDisplayName}", body: "Build failed"
+           mail to:"raknas000@gmail.com", subject:"FAILURE: ${currentBuild.fullDisplayName}", body: "Build failed"
         }
     }       
 }
