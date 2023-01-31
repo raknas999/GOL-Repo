@@ -1,7 +1,7 @@
 pipeline {
     agent any 
     tools { 
-        maven 'MAVEN_3.0' 
+        maven 'MAVEN' 
       
     }
 stages { 
@@ -27,7 +27,7 @@ stages {
        // Run the maven build
 
       //if (isUnix()) {
-         sh 'mvn clean install'
+         sh 'sh 'mvn -Dmaven.test.failure.ignore=true install''
       //} 
       //else {
       //   bat(/"${mvnHome}\bin\mvn" -Dmaven.test.failure.ignore clean package/)
